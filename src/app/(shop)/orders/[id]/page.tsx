@@ -31,17 +31,17 @@ export default function ( { params }: Props ) {
 
 
   return (
-    <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
+    <div className="flex justify-center items-center mb-72 px-10 sm:px-0 borderReference">
 
-      <div className="flex flex-col w-[1000px]">
+      <div className="flex flex-col w-[1000px] borderReference">
 
         <Title title={ `Orden #${ id }` } />
 
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 borderReference">
 
           {/* Carrito */ }
-          <div className="flex flex-col mt-5">
+          <div className="flex flex-col mt-5 borderReference">
 
             <div className={
               clsx(
@@ -93,7 +93,7 @@ export default function ( { params }: Props ) {
 
 
           {/* Checkout - Resumen de orden */ }
-          <div className="bg-white rounded-xl shadow-xl p-7">
+          <div className="bg-white rounded-xl shadow-xl p-7 borderReference">
 
             <h2 className="text-2xl mb-2">Dirección de entrega</h2>
             <div className="mb-10">

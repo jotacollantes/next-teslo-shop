@@ -3,11 +3,11 @@ import { IoCartOutline } from 'react-icons/io5';
 
 export default function() {
   return (
-    <div className="flex justify-center items-center h-[800px]">
+    <div className="flex justify-center items-center h-[800px] borderReference">
 
       <IoCartOutline size={ 80 } className="mx-5" />
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center borderReference">
         <h1 className="text-xl font-semibold">
           Tu carrito está vacío
         </h1>

@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 export default function () {
   return (
-    <div className="flex flex-col min-h-screen pt-32 sm:pt-52">
+    <div className="flex flex-col min-h-screen pt-32 sm:pt-52 borderReference">
 
       <h1 className={ `${ titleFont.className } text-4xl mb-5` }>Ingresar</h1>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col borderReference">
 
         <label htmlFor="email">Correo electrónico</label>
         <input

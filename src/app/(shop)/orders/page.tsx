@@ -9,7 +9,7 @@ export default function() {
     <>
       <Title title="Orders" />
 
-      <div className="mb-10">
+      <div className="mb-10 borderReference">
         <table className="min-w-full">
           <thead className="bg-gray-200 border-b">
             <tr>
