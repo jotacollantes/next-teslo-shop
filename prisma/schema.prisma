@@ -27,6 +27,7 @@ enum Gender {
 model Category {
   id      String    @id @default(uuid())
   name    String    @unique
+  // Es necesario crear la  Relacion Category => Products (uno a muchos)
   Product Product[]
 }
 
@@ -42,12 +43,10 @@ model Product {
   gender      Gender
 
   // Relaciones
-  
   category     Category       @relation(fields: [categoryId], references: [id])
   categoryId   String
-
   ProductImage ProductImage[]
-
+  //Indices parta busquedas por genero
   @@index([gender])
 }
 
