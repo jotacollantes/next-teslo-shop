@@ -22,6 +22,7 @@ export const Pagination = ({ totalPages }: Props) => {
   const currentPage = isNaN( +pageString ) ? 1 : +pageString;
 
   if (currentPage < 1 || isNaN(+pageString) ) {
+    //Para no mostrar el path invalido
     redirect( pathname );
   }
  
@@ -34,15 +35,18 @@ export const Pagination = ({ totalPages }: Props) => {
 
     const params = new URLSearchParams( searchParams );
 
+    //SI se envia los ... retorna la misma url donde me encuentro
     if ( pageNumber === '...' ) {
       return `${ pathname }?${ params.toString() }`
     }
 
     if ( +pageNumber <= 0 ) {
+      // si es la pagina 0 se retorna la ruta donde me encuentro actualemte
       return `${ pathname }`; //   href="/kid";
     }
 
-    if ( +pageNumber > totalPages ) { // Next > 
+    if ( +pageNumber > totalPages ) { // Next >
+      //si el numero de pagina es mayor al total de paginas retornamos la url donde nos encontramos 
       return `${pathname}?${ params.toString() }`;
     }
 

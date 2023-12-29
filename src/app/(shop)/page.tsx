@@ -21,7 +21,7 @@ export default async function Home({ searchParams }: Props) {
 
   const { products, currentPage, totalPages } = await getPaginatedProductsWithImages({ page });
 
-
+ //Si los products viene como un arreglo vacio []
   if ( products.length === 0 ) {
     redirect('/');
   }

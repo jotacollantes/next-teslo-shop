@@ -8,6 +8,7 @@ export interface Product {
   slug: string;
   tags: string[];
   title: string;
+  //En los products de la base no tiene el campo type que es obligatorio en la interface
   //todo: type: Type;
   gender: Category;
 }
