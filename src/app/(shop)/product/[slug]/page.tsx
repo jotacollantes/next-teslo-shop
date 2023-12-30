@@ -19,6 +19,7 @@ interface Props {
   };
 }
 
+//!Para generar metadata dinamica
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata

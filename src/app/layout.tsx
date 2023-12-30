@@ -9,6 +9,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
+    //! Se incluira en todos los titles de las demas rutas
     template: '%s - Teslo | Shop',
     default: 'Home - Teslo | Shop'
   },
