@@ -66,7 +66,7 @@ export const useCartStore = create<State>()(
           (item) => item.id === product.id && item.size === product.size
         );
 
-        //SI no esta el producto en el carrito lo insertamos  
+        //SI no esta el producto en el carrito lo insertamos
         if (!productInCart) {
           //Propagamos el cart actual e insertamos el nuevo producto
           set({ cart: [...cart, product] });
@@ -103,16 +103,16 @@ export const useCartStore = create<State>()(
       },
 
       removeProduct: (product: CartProduct) => {
-        
         //Para obtener el state actual del estado en zustand
         const { cart } = get();
         //Removemos el item del carrito que coincida el id y la size, par eso usamos filter
         const updatedCartProducts = cart.filter(
-          (item) => 
+          (item) =>
             //item.id !== product.id || item.size !== product.size
-            `${item.id.trim()}-${item.size}` !==`${product.id.trim()}-${product.size}`
+            //`${item.id.trim()}-${item.size}` !==`${product.id.trim()}-${product.size}`
+            !(item.id === product.id && item.size === product.size)
         );
-         //EN este punto actualizamos el cart on los productos verificados en updatedCartProducts 
+        //EN este punto actualizamos el cart on los productos verificados en updatedCartProducts
         set({ cart: updatedCartProducts });
       },
     }),
