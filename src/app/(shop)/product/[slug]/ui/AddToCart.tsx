@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const AddToCart = ({ product }: Props) => {
-
+  //!Importamos el metodo addProductTocart desde el store de Zustand
   const addProductToCart = useCartStore( state => state.addProductTocart );
 
   const [size, setSize] = useState<Size | undefined>();
@@ -22,7 +22,9 @@ export const AddToCart = ({ product }: Props) => {
     setPosted(true);
 
     if (!size) return;
-
+    //console.log({size,quantity,product})
+    
+    //Mapeamos el producto
     const cartProduct: CartProduct = {
       id: product.id,
       slug: product.slug,
@@ -32,7 +34,7 @@ export const AddToCart = ({ product }: Props) => {
       size: size,
       image: product.images[0]
     }
-
+   //!ejecutamos el metodo addProductTocart() desde el store de Zustand
     addProductToCart(cartProduct);
     setPosted(false);
     setQuantity(1);

@@ -10,8 +10,10 @@ import { useCartStore, useUIStore } from "@/store";
 export const TopMenu = () => {
 
   const openSideMenu = useUIStore((state) => state.openSideMenu);
+  //!ejecutamos el metodo getTotalItems() directamente desde el store de Zustand
   const totalItemsInCart = useCartStore((state) => state.getTotalItems());
   
+  //!COn este manejo del State evito que aparezca el error de Hidratacion ya que cuando se renderiza el componente del lado del servidor , este no tiene conocimiento del total de items por no tiene acceso al localstoragey por concecuencia el valor a renderizar en total de items siempre sera 0 para el server y se rederiza 0 en el client tambien. si loades es true el procesamiento de rederizar el total de items en el carrito ya se hace del lado del cliente
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {

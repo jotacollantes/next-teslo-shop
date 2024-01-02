@@ -11,16 +11,20 @@ import Link from 'next/link';
 
 export const ProductsInCart = () => {
 
-  const updateProductQuantity = useCartStore( state => state.updateProductQuantity );
-  const removeProduct = useCartStore( state => state.removeProduct );
+  
 
   const [loaded, setLoaded] = useState(false);
+  //!Importamos el carrito desde el store de Zustand
   const productsInCart = useCartStore( state => state.cart );
+
+  //!Usamos los metodos updateProductQuantity, removeProduct que vienen desde el stores
+  const updateProductQuantity = useCartStore( state => state.updateProductQuantity );
+  const removeProduct = useCartStore( state => state.removeProduct );
 
 
   useEffect(() => {
     setLoaded(true) ;
-  });
+  },[]);
 
 
 
@@ -32,6 +36,7 @@ export const ProductsInCart = () => {
   return (
     <>
       {productsInCart.map((product) => (
+        //Generamos un Slug Unico
         <div key={ `${ product.slug }-${ product.size }`  } className="flex mb-5">
           <Image
             src={`/products/${product.image }`}
@@ -55,7 +60,7 @@ export const ProductsInCart = () => {
             <p>${product.price}</p>
             <QuantitySelector 
               quantity={ product.quantity } 
-              onQuantityChanged={ quantity => updateProductQuantity(product, quantity) }
+              onQuantityChanged={ (quantity) => updateProductQuantity(product, quantity) }
             />
 
             <button 

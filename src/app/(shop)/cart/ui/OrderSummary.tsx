@@ -10,6 +10,7 @@ export const OrderSummary = () => {
   const router = useRouter();
 
   const [loaded, setLoaded] = useState(false);
+  //!Ejecutamos el metodo getSummaryInformation() que esta en el store de Zustand.
   const { itemsInCart, subTotal, tax, total } = useCartStore((state) =>
     state.getSummaryInformation()
   );
@@ -26,7 +27,7 @@ export const OrderSummary = () => {
     }
 
 
-  },[ itemsInCart, loaded ])
+  },[itemsInCart, loaded ])
 
 
 
