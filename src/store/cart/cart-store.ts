@@ -109,8 +109,8 @@ export const useCartStore = create<State>()(
         const updatedCartProducts = cart.filter(
           (item) =>
             //item.id !== product.id || item.size !== product.size
-            `${item.id.trim()}-${item.size}` !==`${product.id.trim()}-${product.size}`
-            //!(item.id === product.id && item.size === product.size)
+            //`${item.id.trim()}-${item.size}` !==`${product.id.trim()}-${product.size}`
+            !(item.id === product.id && item.size === product.size)
         );
         //EN este punto actualizamos el cart on los productos verificados en updatedCartProducts
         set({ cart: updatedCartProducts });
