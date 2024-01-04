@@ -6,10 +6,10 @@ export default async function ShopLayout( { children }: {
   children: React.ReactNode;
 } ) {
 
-
+  // el auth es exportado desde el authConfig
   const session = await auth();
 
-
+ //Si existe una sesion valida lo redireccionamos al / caso contrario le mostamos la pagina de login o de new account
   if ( session?.user ) {
     redirect('/');
   }

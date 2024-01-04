@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 export default async function ProfilePage() {
   const session = await auth();
 
+  //Validamos la ruta
   if (!session?.user) {
     // redirect('/auth/login?returnTo=/perfil');
     redirect("/");

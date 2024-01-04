@@ -13,14 +13,18 @@ export const LoginForm = () => {
 
 
   // const router = useRouter();
+  //! Vamos a usar el server action authenticate
+  //! Si las credenciales no son correctas el state devuelve "CredentialsSignin" caso contrario si son correctas devuelve SUCCESS
   const [state, dispatch] = useFormState(authenticate, undefined);
   
   console.log(state);
 
+  //Si  state es igual a Success lo redireccionamos al /
   useEffect(() => {
     if ( state === 'Success' ) {
       // redireccionar
       // router.replace('/');
+      //! Hace el refresh del navegador web
       window.location.replace('/');
     }
 
@@ -29,6 +33,8 @@ export const LoginForm = () => {
 
 
   return (
+    //El form va a ejecutar el dispatch
+    //Es necesario especificar los nombres de los imputs para que pase el validador de schemas de zod que esta ocnfigurado en auth.config.ts
     <form action={dispatch} className="flex flex-col">
       <label htmlFor="email">Correo electrónico</label>
       <input
@@ -60,6 +66,8 @@ export const LoginForm = () => {
       </div>
 
         <LoginButton />
+        
+        
       {/* <button type="submit" className="btn-primary">
         Ingresar
       </button> */}
@@ -77,6 +85,8 @@ export const LoginForm = () => {
     </form>
   );
 };
+
+// Para poder usar el pending del useFormStatus para validaciones y renderizado condicional, el boton de submit  debe de estar creado por separado en un functional component
 
 function LoginButton() {
   const { pending } = useFormStatus();

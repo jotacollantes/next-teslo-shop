@@ -13,9 +13,10 @@ export async function authenticate(
   try {
 
     // await sleep(2);
-    
+    console.log(Object.fromEntries(formData))
     await signIn('credentials', {
       ...Object.fromEntries(formData),
+      //Para no disparar la redireccion
       redirect: false,
     });
 
@@ -24,7 +25,7 @@ export async function authenticate(
 
   } catch (error) {
     console.log(error);
-
+    //Error que vamos a regresar
     return 'CredentialsSignin'
 
 

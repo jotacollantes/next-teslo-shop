@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { login, registerUser } from '@/actions';
 import { useState } from 'react';
 
-
+// Se define los campos que se vab a usar
 type FormInputs = {
   name: string;
   email: string;
@@ -32,8 +32,9 @@ export const RegisterForm = () => {
       setErrorMessage( resp.message );
       return;
     }
-
+   //En este punto si el usuario se creo la autenticacion se hace el login sin necesidad de procesar respuesta
     await login( email.toLowerCase(), password );
+    //Se hace el refresh para que se rendericen los componentes de manera correcta
     window.location.replace('/');
 
 
@@ -41,6 +42,7 @@ export const RegisterForm = () => {
 
 
   return (
+    //Despues de que se valide el formulario se ejecuta el handleSubmit(onSubmit)
     <form onSubmit={ handleSubmit( onSubmit ) }  className="flex flex-col">
 
       {/* {

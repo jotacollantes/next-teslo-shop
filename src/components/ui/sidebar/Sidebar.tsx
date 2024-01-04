@@ -20,11 +20,19 @@ import { logout } from "@/actions";
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
-
+  //Para hacer verificaciones de la sesion de lado del cliente usamos el hook useSession de next-auth. Es necesario crear un HOC SessionProvider y emvolver el children en el RootLayout de la applicacion. Es necesario crear el enpoint http://localhost:3000/api/auth/session
   const { data: session } = useSession();
-  const isAuthenticated = !!session?.user;
+  //! Por defecto la informacion de la session que se recupera de lado del cliente es {email,name,image} y hay que completarla con la info que se tiene en la BD
+  
+  
+  
+  //La doble negacion es para obtener un valor Booleano
+  
+  //const isAuthenticated = !!session?.user;
+  //Tembien puede ser
+  const isAuthenticated = session?.user===undefined ? false :true;
   const isAdmin = session?.user.role === "admin";
-
+console.log({isAuthenticated})
   return (
     <div>
       {/* Background black */}
@@ -91,6 +99,7 @@ export const Sidebar = () => {
         {isAuthenticated && (
           <button
             className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            //Cuando se ejecuta un server action directamente en el onclick se tiene que enviar el callback completo () => logout(), si se envia solo referencia logout next dispara un Unhandled Runtime Error
             onClick={() => logout()}
           >
             <IoLogOutOutline size={30} />
