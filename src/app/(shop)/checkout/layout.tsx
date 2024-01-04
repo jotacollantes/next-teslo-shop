@@ -4,7 +4,8 @@ import { redirect } from 'next/navigation';
 export default async function CheckoutLayout({children}: {
  children: React.ReactNode;
 }) {
-
+   
+  //Protegemos la ruta de esta forma ya que por via middleware no funciona
   const session = await auth();
 
   if (!session?.user) {
