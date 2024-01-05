@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 
 
-
+//Como la tabla UserAddress tiene una relacion 1 a 1 con User se puede usar el userId
 export const deleteUserAddress = async( userId: string ) => {
 
   try {

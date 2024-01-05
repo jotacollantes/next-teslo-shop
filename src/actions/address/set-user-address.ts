@@ -5,14 +5,12 @@ import prisma from "@/lib/prisma";
 
 export const setUserAddress = async (address: Address, userId: string) => {
   try {
-
-    const newAddress = await createOrReplaceAddress( address, userId );
+    const newAddress = await createOrReplaceAddress(address, userId);
 
     return {
       ok: true,
       address: newAddress,
-    }
-
+    };
   } catch (error) {
     console.log(error);
     return {
@@ -24,13 +22,12 @@ export const setUserAddress = async (address: Address, userId: string) => {
 
 const createOrReplaceAddress = async (address: Address, userId: string) => {
   try {
-
     console.log({ userId });
 
     const storedAddress = await prisma.userAddress.findUnique({
       where: { userId },
     });
-
+    //Prepa
     const addressToSave = {
       userId: userId,
       address: address.address,
@@ -42,7 +39,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       phone: address.phone,
       postalCode: address.postalCode,
     };
-
+    //Si no existe el address crea el registro
     if (!storedAddress) {
       const newAddress = await prisma.userAddress.create({
         data: addressToSave,
@@ -50,16 +47,13 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
 
       return newAddress;
     }
-
+    //Si existe el address sobreescribe el registro
     const updatedAddress = await prisma.userAddress.update({
       where: { userId },
-      data: addressToSave
-    })
+      data: addressToSave,
+    });
 
     return updatedAddress;
-
-
-
   } catch (error) {
     console.log(error);
     throw new Error("No se pudo grabar la dirección");

@@ -72,7 +72,7 @@ model User {
   password      String
   role          Role      @default(user)
   image         String?
-
+  //Relacion 1-1 Opcional, no todos los usuarios tendran direccion predeterminada
   address UserAddress?
 }
 
@@ -95,7 +95,7 @@ model UserAddress {
   // Relaciones
   country   Country @relation(fields: [countryId], references: [id])
   countryId String
-
+   
   user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
+  userId String @unique //una direccion solo va a correspendore a un unico usuario
 }

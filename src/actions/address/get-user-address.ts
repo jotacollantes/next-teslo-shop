@@ -17,6 +17,7 @@ export const getUserAddress = async( userId: string ) => {
 
     return {
       ...rest,
+      //El id delo input en el formulario es country y no countryId
       country: countryId,
       address2: address2 ? address2 : '',
     };
