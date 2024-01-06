@@ -113,18 +113,20 @@ model Order {
   tax          Float
   total        Float
   itemsInOrder Int
+  //Valor por Default en false porque no esta pagada la orden cuando se crea
   isPaid       Boolean   @default(false)
   paidAt       DateTime?
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt //se actualiza automaticamente
 
   // Relaciones
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
   OrderItem    OrderItem[]
-  OrderAddress OrderAddress?
+  //!Si las [] se estable como una relacion 1 a 1 , en la tabla hija se tiene que especificar unique
+  OrderAddress OrderAddress? 
 }
 
 model OrderItem {
@@ -136,11 +138,11 @@ model OrderItem {
   // Relaciones
   order   Order  @relation(fields: [orderId], references: [id])
   orderId String
-
+  //!Esta relacion se usara para obtener el slug mas no para obtener los precios de los productos.
   product   Product @relation(fields: [productId], references: [id])
   productId String
 }
-
+//!OrderAddress es la direccion de la orden y no la direccion del usuario, se relaciana con Order en una relacion 1 a 1 
 model OrderAddress {
   id         String  @id @default(uuid())
   firstName  String
@@ -156,5 +158,6 @@ model OrderAddress {
   countryId String
 
   Order   Order  @relation(fields: [orderId], references: [id])
-  orderId String @unique
+  //!Con @unique establezco una relacion 1 a 1 , por defaul las relaciones se establecen de 1 a muchos
+  orderId String @unique 
 }

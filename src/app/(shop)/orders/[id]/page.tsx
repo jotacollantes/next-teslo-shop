@@ -27,7 +27,7 @@ export default async function OrdersByIdPage({ params }: Props) {
   // Todo: Llamar el server action
 
   const { ok, order } = await getOrderById(id);
-
+  console.log('order', JSON.stringify(order, null, 2))
   if (!ok) {
     redirect("/");
   }

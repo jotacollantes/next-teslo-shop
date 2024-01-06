@@ -16,7 +16,7 @@ export const PlaceOrder = () => {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
 
-
+  //EL objeto address se va a enviar integro
   const address = useAddressStore((state) => state.address);
 
   const { itemsInCart, subTotal, tax, total } = useCartStore((state) =>
@@ -33,23 +33,26 @@ export const PlaceOrder = () => {
   const onPlaceOrder = async() => {
     setIsPlacingOrder(true);
     // await sleep(2);
-
+     
+    //Creo un arreglo con el productid,quantity y size
     const productsToOrder = cart.map( product => ({
       productId: product.id,
       quantity: product.quantity,
       size: product.size,
     }))
-
+  console.log('Order', JSON.stringify({address,productsToOrder}, null, 2))
 
     //! Server Action
+    //los totales se van a verificar desde la base de datos en el banckend porque si se envia desde el front end pueden ser manipulados en el localstorage, el objeto address se envia integro
     const resp = await placeOrder( productsToOrder, address);
     if ( !resp.ok ) {
       setIsPlacingOrder(false);
       setErrorMessage(resp.message);
       return;
     }
-
+     console.log(resp)
     //* Todo salio bien!
+    //Limpiar el carrito
     clearCart();
     router.replace('/orders/' + resp.order?.id );
 

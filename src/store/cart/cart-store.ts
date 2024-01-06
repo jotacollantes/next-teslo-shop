@@ -99,7 +99,7 @@ export const useCartStore = create<State>()(
 
         set({ cart: updatedCartProducts });
       },
-
+      //! Para limpiar el carrito
       clearCart: () => {
         set({ cart: [] });
       },
