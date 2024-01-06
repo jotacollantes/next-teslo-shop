@@ -52,6 +52,7 @@ export interface PurchaseUnit {
   payee:        Payee;
   shipping:     Shipping;
   payments:     Payments;
+  // CUando se incluya la propiedad invoice_id con el valor de la orden la respuesta del endpoint de paypal va a incluir la propiedad invoice_id,
   invoice_id:   string;
 }
 

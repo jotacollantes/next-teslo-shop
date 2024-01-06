@@ -125,7 +125,7 @@ model Order {
 
   OrderItem    OrderItem[]
   OrderAddress OrderAddress?
-
+ //! para manejar el id de la transaccion enviada desde paypal y es opcional
   transactionId String?
 }
 

@@ -5,8 +5,9 @@ import { PayPalOrderStatusResponse } from '@/interfaces';
 import { revalidatePath } from 'next/cache';
 
 export const paypalCheckPayment = async (paypalTransactionId: string) => {
+  //!hay que obtener el token desde el endpoint de paypal para poder hacer la verificacion del pago desde el backend de paypal
   const authToken = await getPayPalBearerToken();
-
+  console.log({authToken})
   if (!authToken) {
     return {
       ok: false,
@@ -15,7 +16,7 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   }
 
   const resp = await verifyPayPalPayment( paypalTransactionId, authToken );
-
+  
   if ( !resp ) {
     return {
       ok: false,
@@ -25,6 +26,8 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
 
   const { status, purchase_units } = resp;
   console.log({status, purchase_units});
+
+  //! Desestructuramos el invoice_id que para nuestra aplicacion es el orderId
   const { invoice_id: orderId } = purchase_units[0]; // TODO: invoice ID
 
   if ( status !== 'COMPLETED' ) {
@@ -72,12 +75,14 @@ const getPayPalBearerToken = async (): Promise<string | null> => {
   const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
   const oauth2Url = process.env.PAYPAL_OAUTH_URL ?? "";
 
+  //! Para el authentication basic
   const base64Token = Buffer.from(
     `${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`,
     "utf-8"
   ).toString("base64");
 
   const myHeaders = new Headers();
+  //! El body o el content-type es de tipo x-www-form-urlencoded
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
   myHeaders.append("Authorization", `Basic ${base64Token}`);
 
@@ -106,7 +111,7 @@ const verifyPayPalPayment = async (
   paypalTransactionId: string,
   bearerToken: string
 ): Promise<PayPalOrderStatusResponse|null>  => {
-
+   //! Para crear el url:https://api.sandbox.paypal.com/v2/checkout/orders/2KE70627NC530544J
   const paypalOrderUrl = `${ process.env.PAYPAL_ORDERS_URL }/${ paypalTransactionId }`;
 
   const myHeaders = new Headers();
@@ -125,7 +130,7 @@ const verifyPayPalPayment = async (
       ...requestOptions,
       cache: 'no-store'
     }).then( r => r.json() );
-    console.log({resp});
+    //console.log({resp});
     return resp;
     
   } catch (error) {
