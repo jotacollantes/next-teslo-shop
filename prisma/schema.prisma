@@ -143,6 +143,7 @@ model OrderItem {
   productId String
 }
 
+
 model OrderAddress {
   id         String  @id @default(uuid())
   firstName  String
