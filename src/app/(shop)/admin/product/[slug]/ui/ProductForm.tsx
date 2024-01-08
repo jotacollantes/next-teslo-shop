@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { ProductImage } from '@/components';
 
 interface Props {
+  // & { ...:...}; Significa que adicional al producto puede venir el ProductImage 
   product: Partial<Product> & { ProductImage?: ProductWithImage[] };
   categories: Category[];
 }
@@ -25,7 +26,7 @@ interface FormInputs {
   tags: string;
   gender: "men" | "women" | "kid" | "unisex";
   categoryId: string;
-
+   //FileList ya viene incluido en el navegador que especifica el listado de imagenes
   images?: FileList;
 }
 
@@ -37,23 +38,25 @@ export const ProductForm = ({ product, categories }: Props) => {
     handleSubmit,
     register,
     formState: { isValid },
-    getValues,
-    setValue,
-    watch,
+    getValues, //! toma los valores de los inputs
+    setValue,//! configura los nuevos valores de los inputs
+    watch, //! Para dar seguimiento a los cambios que se hacen al formulario y hacer el render 
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
       tags: product.tags?.join(", "),
       sizes: product.sizes ?? [],
-
+      //el valor por defecto es undefined  
       images: undefined,
     },
   });
 
-  watch("sizes");
+  watch("sizes"); //!Renderizarel formulario en caso de que cambie los sizes
 
   const onSizeChanged = (size: string) => {
+    //!Se crea un Set con los datos del sizes pero sin duplicados
     const sizes = new Set(getValues("sizes"));
+    console.log(sizes)
     sizes.has(size) ? sizes.delete(size) : sizes.add(size);
     setValue("sizes", Array.from(sizes));
   };
@@ -62,14 +65,16 @@ export const ProductForm = ({ product, categories }: Props) => {
     const formData = new FormData();
 
     const { images, ...productToSave } = data;
-
+    
     if ( product.id ){
+      //! SI es actualizacion envio el product id caso contrario el esquema de validacion lo tomara como opcional.
       formData.append("id", product.id ?? "");
     }
     
     formData.append("title", productToSave.title);
     formData.append("slug", productToSave.slug);
     formData.append("description", productToSave.description);
+    //Los datos den el FormData viajan en string, es necesaria hacer la conversion
     formData.append("price", productToSave.price.toString());
     formData.append("inStock", productToSave.inStock.toString());
     formData.append("sizes", productToSave.sizes.toString());
@@ -77,14 +82,14 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
     
+    //! Para enviar las imagenes en caso de que se ingresen por el formulario
+    
     if ( images ) {
       for ( let i = 0; i < images.length; i++  ) {
         formData.append('images', images[i]);
       }
     }
-
-
-
+    
     const { ok, product:updatedProduct } = await createUpdateProduct(formData);
 
     if ( !ok ) {

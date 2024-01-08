@@ -1,57 +1,47 @@
-'use server';
+"use server";
 
-import prisma from '@/lib/prisma';
-import {v2 as cloudinary} from 'cloudinary';
-import { revalidatePath } from 'next/cache';
-cloudinary.config( process.env.CLOUDINARY_URL ?? '' );
+import prisma from "@/lib/prisma";
+import { v2 as cloudinary } from "cloudinary";
+import { revalidatePath } from "next/cache";
+cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
-
-export const deleteProductImage = async( imageId: number, imageUrl: string ) => {
-
-  if ( !imageUrl.startsWith('http') ) {
+export const deleteProductImage = async (imageId: number, imageUrl: string) => {
+  if (!imageUrl.startsWith("http")) {
     return {
       ok: false,
-      error: 'No se pueden borrar imagenes de FS'
-    }
+      error: "No se pueden borrar imagenes de FS",
+    };
   }
 
-  const imageName = imageUrl
-    .split('/')
-    .pop()
-    ?.split('.')[0] ?? '';
-
+  //'https://res.cloudinary.com/j2systems/image/upload/v1704739366/d606awlki6sinoxvjrid.png',
+  //obtener el untimo pedazo del URL: d606awlki6sinoxvjrid
+  const imageName = imageUrl.split("/").pop()?.split(".")[0] ?? "";
+  console.log(imageName);
   try {
-
-    await cloudinary.uploader.destroy( imageName );
+    await cloudinary.uploader.destroy(imageName);
     const deletedImage = await prisma.productImage.delete({
       where: {
-        id: imageId
+        id: imageId,
       },
+      //!buscamo en la relacion
       select: {
         product: {
           select: {
-            slug: true
-          }
-        }
-      }
-    })
-
-
+            slug: true,
+          },
+        },
+      },
+    });
 
     // Revalidar los paths
-    revalidatePath(`/admin/products`)
-    revalidatePath(`/admin/product/${ deletedImage.product.slug }`);
-    revalidatePath(`/product/${ deletedImage.product.slug }`);
-
+    revalidatePath(`/admin/products`);
+    revalidatePath(`/admin/product/${deletedImage.product.slug}`);
+    revalidatePath(`/product/${deletedImage.product.slug}`);
   } catch (error) {
     console.log(error);
     return {
       ok: false,
-      message: 'No se pudo eliminar la imagen'
-    }
+      message: "No se pudo eliminar la imagen",
+    };
   }
-
-
-
-
-}
+};
